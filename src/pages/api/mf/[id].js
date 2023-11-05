@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     const page = await browser.newPage();
 
     const url = `https://finance.yahoo.com/quote/${id}`
-    console.log("Trying to scrape "+url);
+    console.warn("Trying to scrape "+url);
     await page.goto(url);
 
     let [price] = await page.$x('//*[@id="quote-header-info"]/div[3]/div[1]/div/fin-streamer[1]')
@@ -20,6 +20,7 @@ export default async function handler(req, res) {
     res.status(200).json({ name: price, title: title })
   } 
   catch (error) {
+    console.log(error)
     res.status(404).json({ status: 404, message: "there was a error getting the data" })
   }
 }
